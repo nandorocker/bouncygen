@@ -4,6 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nando's Bounce Generator</title>
+  <meta name="description" content="Fine-tune CSS button bounce animations with spring physics. Adjust scale, lift, wobble, and squash — then copy the generated CSS or Tailwind config." />
+  <meta name="author" content="Nando Rossi" />
+  <link rel="canonical" href="https://bounce.nan.do" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bounce.nan.do" />
+  <meta property="og:title" content="Nando's Bounce Generator" />
+  <meta property="og:description" content="Fine-tune CSS button bounce animations with spring physics. Adjust scale, lift, wobble, and squash — then copy the generated CSS or Tailwind config." />
+  <meta property="og:site_name" content="nan.do" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://bounce.nan.do" />
+  <meta name="twitter:title" content="Nando's Bounce Generator" />
+  <meta name="twitter:description" content="Fine-tune CSS button bounce animations with spring physics. Adjust scale, lift, wobble, and squash — then copy the generated CSS or Tailwind config." />
+  <meta name="twitter:creator" content="@nandorossi" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -31,6 +49,17 @@
         <option value="Puppy Jump">Puppy Jump</option>
         <option value="Slow Bloom">Slow Bloom</option>
         <option value="Ping">Ping</option>
+        <option value="Soap Bubble">Soap Bubble</option>
+        <option value="Bowling Ball">Bowling Ball</option>
+        <option value="Ping Pong">Ping Pong</option>
+        <option value="Trampoline">Trampoline</option>
+        <option value="Cat Pounce">Cat Pounce</option>
+        <option value="Champagne Cork">Champagne Cork</option>
+        <option value="Basketball">Basketball</option>
+        <option value="Wet Dog">Wet Dog</option>
+        <option value="Typewriter Key">Typewriter Key</option>
+        <option value="Popcorn">Popcorn</option>
+        <option value="Diving Board">Diving Board</option>
       </select>
     </header>
 
@@ -78,10 +107,6 @@
       </div>
     </div>
 
-    <footer class="site-footer">
-      <span>© 2026 Nando Rossi</span>
-    </footer>
-
     <div class="output collapsed">
       <div class="output-header">
         <button id="toggle-btn" class="toggle-btn" aria-expanded="false">
@@ -95,13 +120,24 @@
             <button class="tab active" data-tab="css">CSS</button>
             <button class="tab" data-tab="tailwind">Tailwind</button>
           </div>
-          <button id="copy-btn" class="copy-btn">Copy Code</button>
+          <button id="copy-btn" class="copy-btn">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2.5 8.5H2A1.5 1.5 0 0 1 .5 7V2A1.5 1.5 0 0 1 2 .5h5A1.5 1.5 0 0 1 8.5 2v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Copy Code
+          </button>
         </div>
       </div>
       <pre id="code-output" class="code-output"></pre>
     </div>
 
+    <footer class="site-footer">
+      <span>© 2026 <a href="https://nan.do">Nando Rossi</a> — All rights reserved.</span>
+    </footer>
+
   </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

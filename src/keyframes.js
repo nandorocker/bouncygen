@@ -47,7 +47,7 @@ function buildSteps(springValues, effects) {
   const { scale, lift, wobble, squash } = effects;
 
   const maxScale  = 1 + scale  / 100 * 0.5;   // up to 1.5
-  const maxLift   = lift  / 100 * 30;           // up to 30px
+  const maxLift   = lift  / 100 * 12;           // up to 12px
   const maxWobble = wobble / 100 * 15;          // up to 15deg
   const maxSquash = squash / 100 * 0.3;         // up to 0.3 ratio offset
 
