@@ -34,6 +34,12 @@ header       { padding-bottom: 1.5rem; flex-shrink: 0; }
 /* ── Header ────────────────────────────────── */
 header {
   display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.header-top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
@@ -56,7 +62,7 @@ header {
 .back-link:hover { color: #e8913a; }
 
 h1 {
-  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -67,6 +73,9 @@ h1 {
   align-items: center;
   gap: 0.5rem;
 }
+
+.preset-row--mobile { display: none; }
+
 
 select {
   font-family: 'Work Sans', system-ui, sans-serif;
@@ -109,13 +118,12 @@ select:hover { border-color: #e8913a; }
   border-color: #e8913a;
 }
 
-/* ── Top row: preview + controls ──────────── */
+/* ── Top row: preview full-width, controls below in 2 cols ── */
 .top {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
   flex-shrink: 0;
-  align-items: stretch;
 }
 
 /* ── Preview ───────────────────────────────── */
@@ -126,16 +134,17 @@ select:hover { border-color: #e8913a; }
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 160px;
+  min-height: 300px;
+  width: 100%;
 }
 
 .big-button {
   font-family: 'Work Sans', system-ui, sans-serif;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
   font-weight: 900;
-  padding: 1rem 2.5rem;
+  padding: 1.4rem 3.5rem;
   border: none;
-  border-radius: 16px;
+  border-radius: 9999px;
   background: #e8913a;
   color: #fdf4eb;
   cursor: pointer;
@@ -149,8 +158,8 @@ select:hover { border-color: #e8913a; }
 
 /* ── Controls ──────────────────────────────── */
 .controls {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
@@ -288,7 +297,12 @@ input[type="range"]::-moz-range-thumb {
 .tabs {
   display: flex;
   gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+.tabs::-webkit-scrollbar { display: none; }
 
 .tab {
   font-family: 'Work Sans', system-ui, sans-serif;
@@ -327,6 +341,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .copy-btn:hover { opacity: 0.85; }
+
+.copy-confirm { display: none; }
+.copy-btn.copied .copy-icon  { display: none; }
+.copy-btn.copied .copy-label { display: none; }
+.copy-btn.copied .copy-confirm { display: inline; }
 
 .code-output {
   flex: 1;
@@ -370,16 +389,47 @@ input[type="range"]::-moz-range-thumb {
     gap: 0.75rem;
   }
 
-  .top {
+  .controls {
     grid-template-columns: 1fr;
   }
 
   .preview-area {
-    min-height: 120px;
+    min-height: 260px;
+    padding: 2.5rem 0;
     border-radius: 14px;
   }
 
   label {
     grid-template-columns: 4.5rem 1fr 2rem;
   }
+
+  /* Move preset row below title, hide desktop version */
+  .preset-row--desktop { display: none; }
+  .preset-row--mobile  { display: flex; width: 100%; margin-top: 0.6rem; }
+  .preset-row--mobile select { flex: 1; }
+
+  /* Icon-only copy button on mobile — fixed square so copied state can't reflow */
+  .copy-btn .copy-label { display: none; }
+  .copy-btn { padding: 0; width: 28px; height: 28px; justify-content: center; flex-shrink: 0; }
+  .copy-btn.copied .copy-confirm-text { display: none; }
+
+  /* Shrink tab padding so all 4 fit on one line */
+  .tab { padding: 0.3rem 0.4rem; font-size: 0.72rem; white-space: nowrap; }
+
+  /* Hide the View Code toggle */
+  .toggle-btn { display: none; }
+
+  /* Code panel always expanded, tall enough to scroll */
+  .output,
+  .output.collapsed {
+    flex: none;
+    height: 300px;
+  }
+
+  .output.collapsed .code-output { display: block; }
+  .output.collapsed .output-actions { display: flex; }
+  .output.collapsed .toggle-icon { transform: rotate(0deg); }
+
+  /* Code output itself scrolls */
+  .code-output { min-height: 0; }
 }

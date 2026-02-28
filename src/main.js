@@ -42,10 +42,12 @@ const bigButton     = document.getElementById('big-button');
 const codeOutput    = document.getElementById('code-output');
 const copyBtn       = document.getElementById('copy-btn');
 const tabs          = document.querySelectorAll('.tab');
-const presetSelect  = document.getElementById('preset-select');
-const outputPanel   = document.querySelector('.output');
-const toggleBtn     = document.getElementById('toggle-btn');
-const resetBtn      = document.getElementById('reset-btn');
+const presetSelect       = document.getElementById('preset-select');
+const presetSelectMobile = document.getElementById('preset-select-mobile');
+const outputPanel        = document.querySelector('.output');
+const toggleBtn          = document.getElementById('toggle-btn');
+const resetBtn           = document.getElementById('reset-btn');
+const resetBtnMobile     = document.getElementById('reset-btn-mobile');
 
 // ── Toggle collapse ───────────────────────────────────────────────────────
 // Clicking the header bar toggles — but not the tabs/copy button
@@ -57,14 +59,30 @@ outputHeader.addEventListener('click', (e) => {
   toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
 });
 
-// ── Reset ─────────────────────────────────────────────────────────────────
-resetBtn.addEventListener('click', () => {
-  Object.keys(sliders).forEach(k => {
-    sliders[k].value = sliders[k].min;
-  });
-  presetSelect.value = '';
+// ── Populate mobile preset select ────────────────────────────────────────
+presetSelectMobile.innerHTML = presetSelect.innerHTML;
+
+// Sync selects bidirectionally
+presetSelect.addEventListener('change', () => {
+  presetSelectMobile.value = presetSelect.value;
+});
+presetSelectMobile.addEventListener('change', () => {
+  presetSelect.value = presetSelectMobile.value;
+  const preset = PRESETS[presetSelectMobile.value];
+  if (!preset) return;
+  Object.keys(preset).forEach(k => { sliders[k].value = preset[k]; });
   update();
 });
+
+// ── Reset ─────────────────────────────────────────────────────────────────
+function doReset() {
+  Object.keys(sliders).forEach(k => { sliders[k].value = sliders[k].min; });
+  presetSelect.value = '';
+  presetSelectMobile.value = '';
+  update();
+}
+resetBtn.addEventListener('click', doReset);
+resetBtnMobile.addEventListener('click', doReset);
 
 // ── Tab state ─────────────────────────────────────────────────────────────
 let activeTab = 'css';
@@ -129,31 +147,40 @@ Object.values(sliders).forEach(s => s.addEventListener('input', update));
 // ── Hover: bounce in, ease out ────────────────────────────────────────────
 const EASE_OUT_MS = 250;
 
-bigButton.addEventListener('mouseenter', () => {
+function triggerBounce() {
   bigButton.style.transition = '';
   bigButton.style.transform = '';
   bigButton.classList.remove('bounce');
   void bigButton.offsetWidth;
   bigButton.classList.add('bounce');
-});
+}
 
-bigButton.addEventListener('mouseleave', () => {
+function resetBounce() {
   bigButton.classList.remove('bounce');
   bigButton.style.transition = `transform ${EASE_OUT_MS}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
   bigButton.style.transform = 'scale(1) translateY(0) rotate(0deg)';
   setTimeout(() => { bigButton.style.transition = ''; }, EASE_OUT_MS);
+}
+
+// Mouse
+bigButton.addEventListener('mouseenter', triggerBounce);
+bigButton.addEventListener('mouseleave', resetBounce);
+
+// Touch
+bigButton.addEventListener('touchstart', (e) => {
+  e.preventDefault(); // prevent ghost mouse events
+  triggerBounce();
+}, { passive: false });
+
+bigButton.addEventListener('touchend', () => {
+  resetBounce();
 });
 
 // ── Copy ──────────────────────────────────────────────────────────────────
-const copyIcon = copyBtn.querySelector('svg');
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(getActiveCode()).then(() => {
-    copyBtn.innerHTML = '✓ Copied!';
-    setTimeout(() => {
-      copyBtn.innerHTML = '';
-      copyBtn.appendChild(copyIcon);
-      copyBtn.appendChild(document.createTextNode(' Copy Code'));
-    }, 1500);
+    copyBtn.classList.add('copied');
+    setTimeout(() => copyBtn.classList.remove('copied'), 1500);
   });
 });
 
@@ -163,4 +190,5 @@ const randomKey  = presetKeys[Math.floor(Math.random() * presetKeys.length)];
 const initPreset = PRESETS[randomKey];
 Object.keys(initPreset).forEach(k => { sliders[k].value = initPreset[k]; });
 presetSelect.value = randomKey;
+presetSelectMobile.value = randomKey;
 update();

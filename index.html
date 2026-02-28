@@ -36,12 +36,13 @@
   <div class="app">
 
     <header>
-      <div class="header-left">
-        <a href="https://nan.do" class="back-link">← nan.do</a>
-        <h1>BouncyGen</h1>
-      </div>
-      <div class="preset-row">
-      <select id="preset-select">
+      <div class="header-top">
+        <div class="header-left">
+          <a href="https://nan.do" class="back-link">← nan.do</a>
+          <h1>BouncyGen</h1>
+        </div>
+        <div class="preset-row preset-row--desktop">
+        <select id="preset-select">
         <option value="">Select Preset</option>
         <option>🍮 Jelly Pop</option>
         <option>🚀 Rocket Launch</option>
@@ -71,6 +72,18 @@
         </svg>
         Reset
       </button>
+        </div>
+      </div>
+      <!-- Mobile-only preset row below title -->
+      <div class="preset-row preset-row--mobile">
+        <select id="preset-select-mobile" aria-label="Select preset"></select>
+        <button id="reset-btn-mobile" class="reset-btn" title="Reset to defaults">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 6.5a5 5 0 1 0 1.1-3.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M1.5 2.5v2h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Reset
+        </button>
       </div>
     </header>
 
@@ -134,11 +147,12 @@
             <button class="tab" data-tab="reactspring">React Spring</button>
           </div>
           <button id="copy-btn" class="copy-btn">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="copy-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
               <path d="M2.5 8.5H2A1.5 1.5 0 0 1 .5 7V2A1.5 1.5 0 0 1 2 .5h5A1.5 1.5 0 0 1 8.5 2v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            Copy Code
+            <span class="copy-label">Copy Code</span>
+            <span class="copy-confirm">✓<span class="copy-confirm-text"> Copied!</span></span>
           </button>
         </div>
       </div>
