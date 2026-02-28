@@ -45,6 +45,7 @@ const tabs          = document.querySelectorAll('.tab');
 const presetSelect  = document.getElementById('preset-select');
 const outputPanel   = document.querySelector('.output');
 const toggleBtn     = document.getElementById('toggle-btn');
+const resetBtn      = document.getElementById('reset-btn');
 
 // ── Toggle collapse ───────────────────────────────────────────────────────
 // Clicking the header bar toggles — but not the tabs/copy button
@@ -54,6 +55,15 @@ outputHeader.addEventListener('click', (e) => {
   if (e.target.closest('.output-actions')) return;
   const isCollapsed = outputPanel.classList.toggle('collapsed');
   toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
+});
+
+// ── Reset ─────────────────────────────────────────────────────────────────
+const DEFAULTS = { scale: 50, lift: 40, wobble: 10, squash: 20, stiffness: 200, damping: 10, mass: 1 };
+
+resetBtn.addEventListener('click', () => {
+  Object.keys(DEFAULTS).forEach(k => { sliders[k].value = DEFAULTS[k]; });
+  presetSelect.value = '';
+  update();
 });
 
 // ── Tab state ─────────────────────────────────────────────────────────────
@@ -102,11 +112,9 @@ function update() {
 Object.values(sliders).forEach(s => s.addEventListener('input', update));
 
 // ── Hover: bounce in, ease out ────────────────────────────────────────────
-// Listen on the preview area so the button moving up can't escape its own hover
-const previewArea = document.querySelector('.preview-area');
 const EASE_OUT_MS = 250;
 
-previewArea.addEventListener('mouseenter', () => {
+bigButton.addEventListener('mouseenter', () => {
   bigButton.style.transition = '';
   bigButton.style.transform = '';
   bigButton.classList.remove('bounce');
@@ -114,7 +122,7 @@ previewArea.addEventListener('mouseenter', () => {
   bigButton.classList.add('bounce');
 });
 
-previewArea.addEventListener('mouseleave', () => {
+bigButton.addEventListener('mouseleave', () => {
   bigButton.classList.remove('bounce');
   bigButton.style.transition = `transform ${EASE_OUT_MS}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
   bigButton.style.transform = 'scale(1) translateY(0) rotate(0deg)';
