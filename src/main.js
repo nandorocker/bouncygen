@@ -166,15 +166,12 @@ function resetBounce() {
 bigButton.addEventListener('mouseenter', triggerBounce);
 bigButton.addEventListener('mouseleave', resetBounce);
 
-// Touch
+// Touch — trigger on tap, let animation finish, then reset
 bigButton.addEventListener('touchstart', (e) => {
   e.preventDefault(); // prevent ghost mouse events
   triggerBounce();
+  setTimeout(resetBounce, 600);
 }, { passive: false });
-
-bigButton.addEventListener('touchend', () => {
-  resetBounce();
-});
 
 // ── Copy ──────────────────────────────────────────────────────────────────
 copyBtn.addEventListener('click', () => {
