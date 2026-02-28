@@ -34,6 +34,23 @@ header {
   flex-shrink: 0;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.back-link {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #b09a84;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.15s;
+}
+
+.back-link:hover { color: #e8913a; }
+
 h1 {
   font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 900;
@@ -179,15 +196,60 @@ input[type="range"]::-moz-range-thumb {
   background: #1e1610;
   border-radius: 16px;
   overflow: hidden;
+  transition: flex 0.3s ease;
+}
+
+.output.collapsed {
+  flex: 0 0 auto;
 }
 
 .output-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.6rem 0.5rem 0.75rem;
   background: #2a1f14;
   flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.output-header .output-actions {
+  cursor: default;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #c8a882;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: color 0.15s;
+}
+
+.toggle-btn:hover { color: #fdf4eb; }
+
+.toggle-icon {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  transform: rotate(-90deg); /* points right = collapsed */
+}
+
+.output:not(.collapsed) .toggle-icon {
+  transform: rotate(0deg); /* points down = expanded */
+}
+
+.output-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .tabs {
@@ -213,9 +275,7 @@ input[type="range"]::-moz-range-thumb {
   color: #fdf4eb;
 }
 
-.tab:not(.active):hover {
-  color: #c8a882;
-}
+.tab:not(.active):hover { color: #c8a882; }
 
 .copy-btn {
   font-family: 'Nunito', system-ui, sans-serif;
@@ -242,6 +302,19 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.6;
   color: #d4b896;
   white-space: pre;
+}
+
+.output.collapsed .code-output {
+  display: none;
+}
+
+/* ── Footer ────────────────────────────────── */
+.site-footer {
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c4aa92;
 }
 
 /* ── Responsive ────────────────────────────── */

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bounce Generator</title>
+  <title>Nando's Bounce Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -13,7 +13,10 @@
   <div class="app">
 
     <header>
-      <h1>Bounce Generator</h1>
+      <div class="header-left">
+        <a href="https://nan.do" class="back-link">← nan.do</a>
+        <h1>Nando's Bounce Generator</h1>
+      </div>
       <select id="preset-select">
         <option value="">Presets</option>
         <option value="Jelly Pop">Jelly Pop</option>
@@ -21,6 +24,13 @@
         <option value="Rubber Duck">Rubber Duck</option>
         <option value="Subtle Nod">Subtle Nod</option>
         <option value="Earthquake">Earthquake</option>
+        <option value="Boing">Boing</option>
+        <option value="Tilt-A-Whirl">Tilt-A-Whirl</option>
+        <option value="Confident">Confident</option>
+        <option value="Nervous Tick">Nervous Tick</option>
+        <option value="Puppy Jump">Puppy Jump</option>
+        <option value="Slow Bloom">Slow Bloom</option>
+        <option value="Ping">Ping</option>
       </select>
     </header>
 
@@ -68,13 +78,25 @@
       </div>
     </div>
 
-    <div class="output">
+    <footer class="site-footer">
+      <span>© 2026 Nando Rossi</span>
+    </footer>
+
+    <div class="output collapsed">
       <div class="output-header">
-        <div class="tabs">
-          <button class="tab active" data-tab="css">CSS</button>
-          <button class="tab" data-tab="tailwind">Tailwind</button>
+        <button id="toggle-btn" class="toggle-btn" aria-expanded="false">
+          <svg class="toggle-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="toggle-label">View Code</span>
+        </button>
+        <div class="output-actions">
+          <div class="tabs">
+            <button class="tab active" data-tab="css">CSS</button>
+            <button class="tab" data-tab="tailwind">Tailwind</button>
+          </div>
+          <button id="copy-btn" class="copy-btn">Copy Code</button>
         </div>
-        <button id="copy-btn" class="copy-btn">Copy</button>
       </div>
       <pre id="code-output" class="code-output"></pre>
     </div>
