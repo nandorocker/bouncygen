@@ -42,6 +42,92 @@ ${frameLines}
 // <button class="hover:animate-bounce-hover">...</button>`;
 }
 
+/**
+ * Generate a Framer Motion whileHover snippet.
+ */
+export function generateFramerMotion(springParams, effects) {
+  const { stiffness, damping, mass } = springParams;
+  const { scale, lift, wobble, squash } = effects;
+
+  const targetScale  = +(1 + scale  / 100 * 0.5).toFixed(3);
+  const targetY      = +(-lift / 100 * 12).toFixed(2);
+  const targetRotate = +(wobble / 100 * 15 * 0.3).toFixed(2); // subtle at rest
+  const targetScaleX = squash > 0 ? +(targetScale + squash / 100 * 0.3).toFixed(3) : null;
+  const targetScaleY = squash > 0 ? +(targetScale - squash / 100 * 0.3).toFixed(3) : null;
+
+  const hoverProps = squash > 0
+    ? `scaleX: ${targetScaleX}, scaleY: ${targetScaleY}, y: ${targetY}, rotate: ${targetRotate}`
+    : `scale: ${targetScale}, y: ${targetY}, rotate: ${targetRotate}`;
+
+  return `import { motion } from "framer-motion";
+
+const spring = {
+  type: "spring",
+  stiffness: ${stiffness},
+  damping: ${damping},
+  mass: ${mass},
+};
+
+export function MyButton() {
+  return (
+    <motion.button
+      whileHover={{ ${hoverProps} }}
+      transition={spring}
+    >
+      Click me
+    </motion.button>
+  );
+}`;
+}
+
+/**
+ * Generate a React Spring useSpring snippet.
+ * React Spring uses tension (≈ stiffness) and friction (≈ damping).
+ */
+export function generateReactSpring(springParams, effects) {
+  const { stiffness, damping, mass } = springParams;
+  const { scale, lift, wobble, squash } = effects;
+
+  const targetScale  = +(1 + scale  / 100 * 0.5).toFixed(3);
+  const targetY      = +(-lift / 100 * 12).toFixed(2);
+  const targetRotate = +(wobble / 100 * 15 * 0.3).toFixed(2);
+  const targetScaleX = squash > 0 ? +(targetScale + squash / 100 * 0.3).toFixed(3) : null;
+  const targetScaleY = squash > 0 ? +(targetScale - squash / 100 * 0.3).toFixed(3) : null;
+
+  const hoverTo   = squash > 0
+    ? `scaleX: ${targetScaleX}, scaleY: ${targetScaleY}, y: "${targetY}px", rotateZ: ${targetRotate}`
+    : `scale: ${targetScale}, y: "${targetY}px", rotateZ: ${targetRotate}`;
+  const restTo    = squash > 0
+    ? `scaleX: 1, scaleY: 1, y: "0px", rotateZ: 0`
+    : `scale: 1, y: "0px", rotateZ: 0`;
+
+  // React Spring: tension ≈ stiffness, friction ≈ damping
+  return `import { useSpring, animated } from "@react-spring/web";
+
+const config = {
+  tension: ${stiffness},
+  friction: ${damping},
+  mass: ${mass},
+};
+
+export function MyButton() {
+  const [styles, api] = useSpring(() => ({
+    ${restTo},
+    config,
+  }));
+
+  return (
+    <animated.button
+      style={styles}
+      onMouseEnter={() => api.start({ ${hoverTo} })}
+      onMouseLeave={() => api.start({ ${restTo} })}
+    >
+      Click me
+    </animated.button>
+  );
+}`;
+}
+
 // ── Shared step builder ────────────────────────────────────────────────────
 function buildSteps(springValues, effects) {
   const { scale, lift, wobble, squash } = effects;

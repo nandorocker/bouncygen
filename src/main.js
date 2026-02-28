@@ -1,5 +1,5 @@
 import { simulateSpring } from './spring.js';
-import { generateKeyframes, generateTailwindConfig } from './keyframes.js';
+import { generateKeyframes, generateTailwindConfig, generateFramerMotion, generateReactSpring } from './keyframes.js';
 import '../style.css';
 
 // ── Presets ───────────────────────────────────────────────────────────────
@@ -70,13 +70,19 @@ resetBtn.addEventListener('click', () => {
 let activeTab = 'css';
 let currentCSS = '';
 let currentTW  = '';
+let currentFramer = '';
+let currentReactSpring = '';
+
+function getActiveCode() {
+  return { css: currentCSS, tailwind: currentTW, framer: currentFramer, reactspring: currentReactSpring }[activeTab] ?? '';
+}
 
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     activeTab = tab.dataset.tab;
-    codeOutput.textContent = activeTab === 'css' ? currentCSS : currentTW;
+    codeOutput.textContent = getActiveCode();
   });
 });
 
@@ -98,15 +104,24 @@ function update() {
     parseFloat(sliders.mass.value),
     60
   );
-  const effects = {
+  const effects  = {
     scale: parseFloat(sliders.scale.value), lift: parseFloat(sliders.lift.value),
     wobble: parseFloat(sliders.wobble.value), squash: parseFloat(sliders.squash.value),
   };
 
-  currentCSS = generateKeyframes(springValues, effects);
-  currentTW  = generateTailwindConfig(springValues, effects);
+  const springParams = {
+    stiffness: parseFloat(sliders.stiffness.value),
+    damping:   parseFloat(sliders.damping.value),
+    mass:      parseFloat(sliders.mass.value),
+  };
+
+  currentCSS         = generateKeyframes(springValues, effects);
+  currentTW          = generateTailwindConfig(springValues, effects);
+  currentFramer      = generateFramerMotion(springParams, effects);
+  currentReactSpring = generateReactSpring(springParams, effects);
+
   dynamicStyle.textContent = currentCSS;
-  codeOutput.textContent = activeTab === 'css' ? currentCSS : currentTW;
+  codeOutput.textContent = getActiveCode();
 }
 
 Object.values(sliders).forEach(s => s.addEventListener('input', update));
@@ -132,8 +147,7 @@ bigButton.addEventListener('mouseleave', () => {
 // ── Copy ──────────────────────────────────────────────────────────────────
 const copyIcon = copyBtn.querySelector('svg');
 copyBtn.addEventListener('click', () => {
-  const text = activeTab === 'css' ? currentCSS : currentTW;
-  navigator.clipboard.writeText(text).then(() => {
+  navigator.clipboard.writeText(getActiveCode()).then(() => {
     copyBtn.innerHTML = '✓ Copied!';
     setTimeout(() => {
       copyBtn.innerHTML = '';
