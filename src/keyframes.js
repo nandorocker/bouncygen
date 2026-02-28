@@ -1,3 +1,19 @@
+// ── Shared constants ───────────────────────────────────────────────────────
+const SCALE_MAX  = 0.5;  // slider 100 → 0.5 scale delta
+const LIFT_PX    = 12;   // slider 100 → 12px lift
+const WOBBLE_DEG = 15;   // slider 100 → 15deg wobble
+const SQUASH_MAX = 0.3;  // slider 100 → 0.3 scaleX/Y offset
+
+// Shared target value calculator for Framer Motion and React Spring
+function calcTargets({ scale, lift, wobble, squash }) {
+  const targetScale  = +(1 + scale  / 100 * SCALE_MAX).toFixed(3);
+  const targetY      = +(-lift / 100 * LIFT_PX).toFixed(2);
+  const targetRotate = +(wobble / 100 * WOBBLE_DEG * 0.3).toFixed(2);
+  const targetScaleX = squash > 0 ? +(targetScale + squash / 100 * SQUASH_MAX).toFixed(3) : null;
+  const targetScaleY = squash > 0 ? +(targetScale - squash / 100 * SQUASH_MAX).toFixed(3) : null;
+  return { targetScale, targetY, targetRotate, targetScaleX, targetScaleY };
+}
+
 /**
  * Generate CSS @keyframes from spring curve + effect parameters.
  */
@@ -47,13 +63,8 @@ ${frameLines}
  */
 export function generateFramerMotion(springParams, effects) {
   const { stiffness, damping, mass } = springParams;
-  const { scale, lift, wobble, squash } = effects;
-
-  const targetScale  = +(1 + scale  / 100 * 0.5).toFixed(3);
-  const targetY      = +(-lift / 100 * 12).toFixed(2);
-  const targetRotate = +(wobble / 100 * 15 * 0.3).toFixed(2); // subtle at rest
-  const targetScaleX = squash > 0 ? +(targetScale + squash / 100 * 0.3).toFixed(3) : null;
-  const targetScaleY = squash > 0 ? +(targetScale - squash / 100 * 0.3).toFixed(3) : null;
+  const { squash } = effects;
+  const { targetScale, targetY, targetRotate, targetScaleX, targetScaleY } = calcTargets(effects);
 
   const hoverProps = squash > 0
     ? `scaleX: ${targetScaleX}, scaleY: ${targetScaleY}, y: ${targetY}, rotate: ${targetRotate}`
@@ -86,22 +97,16 @@ export function MyButton() {
  */
 export function generateReactSpring(springParams, effects) {
   const { stiffness, damping, mass } = springParams;
-  const { scale, lift, wobble, squash } = effects;
+  const { squash } = effects;
+  const { targetScale, targetY, targetRotate, targetScaleX, targetScaleY } = calcTargets(effects);
 
-  const targetScale  = +(1 + scale  / 100 * 0.5).toFixed(3);
-  const targetY      = +(-lift / 100 * 12).toFixed(2);
-  const targetRotate = +(wobble / 100 * 15 * 0.3).toFixed(2);
-  const targetScaleX = squash > 0 ? +(targetScale + squash / 100 * 0.3).toFixed(3) : null;
-  const targetScaleY = squash > 0 ? +(targetScale - squash / 100 * 0.3).toFixed(3) : null;
-
-  const hoverTo   = squash > 0
+  const hoverTo = squash > 0
     ? `scaleX: ${targetScaleX}, scaleY: ${targetScaleY}, y: "${targetY}px", rotateZ: ${targetRotate}`
     : `scale: ${targetScale}, y: "${targetY}px", rotateZ: ${targetRotate}`;
-  const restTo    = squash > 0
+  const restTo = squash > 0
     ? `scaleX: 1, scaleY: 1, y: "0px", rotateZ: 0`
     : `scale: 1, y: "0px", rotateZ: 0`;
 
-  // React Spring: tension ≈ stiffness, friction ≈ damping
   return `import { useSpring, animated } from "@react-spring/web";
 
 const config = {
@@ -132,10 +137,10 @@ export function MyButton() {
 function buildSteps(springValues, effects) {
   const { scale, lift, wobble, squash } = effects;
 
-  const maxScale  = 1 + scale  / 100 * 0.5;   // up to 1.5
-  const maxLift   = lift  / 100 * 12;           // up to 12px
-  const maxWobble = wobble / 100 * 15;          // up to 15deg
-  const maxSquash = squash / 100 * 0.3;         // up to 0.3 ratio offset
+  const maxScale  = 1 + scale  / 100 * SCALE_MAX;
+  const maxLift   = lift  / 100 * LIFT_PX;
+  const maxWobble = wobble / 100 * WOBBLE_DEG;
+  const maxSquash = squash / 100 * SQUASH_MAX;
 
   const totalSteps = springValues.length - 1;
   const seen = new Set();

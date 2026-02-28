@@ -23,7 +23,6 @@ body {
   max-width: 1100px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem 0;
-  gap: 0;
 }
 
 header       { padding-bottom: 1.5rem; flex-shrink: 0; }
@@ -35,7 +34,6 @@ header       { padding-bottom: 1.5rem; flex-shrink: 0; }
 header {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .header-top {
@@ -87,7 +85,6 @@ select {
   border-radius: 10px;
   padding: 0.45rem 2rem 0.45rem 0.75rem;
   cursor: pointer;
-  outline: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b09a84' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -205,7 +202,6 @@ input[type="range"] {
   height: 5px;
   border-radius: 3px;
   background: #e8d9c8;
-  outline: none;
   cursor: pointer;
 }
 
@@ -238,7 +234,6 @@ input[type="range"]::-moz-range-thumb {
   background: #1e1610;
   border-radius: 16px;
   overflow: hidden;
-  transition: flex 0.3s ease;
 }
 
 .output.collapsed {
@@ -311,7 +306,6 @@ input[type="range"]::-moz-range-thumb {
   padding: 0.3rem 0.8rem;
   border: none;
   border-radius: 7px;
-  background: transparent;
   color: #7a6555;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
@@ -398,7 +392,6 @@ input[type="range"]::-moz-range-thumb {
   h1 { font-size: 2.4rem; }
 
   .header-top { padding-bottom: 0.5rem; }
-
 
   header { padding-bottom: 0; }
 

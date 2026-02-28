@@ -37,11 +37,11 @@ const valueDisplays = Object.fromEntries(
   Object.keys(sliders).map(k => [k, document.getElementById(`${k}-val`)])
 );
 
-const dynamicStyle  = document.getElementById('dynamic-style');
-const bigButton     = document.getElementById('big-button');
-const codeOutput    = document.getElementById('code-output');
-const copyBtn       = document.getElementById('copy-btn');
-const tabs          = document.querySelectorAll('.tab');
+const dynamicStyle       = document.getElementById('dynamic-style');
+const bigButton          = document.getElementById('big-button');
+const codeOutput         = document.getElementById('code-output');
+const copyBtn            = document.getElementById('copy-btn');
+const tabs               = document.querySelectorAll('.tab');
 const presetSelect       = document.getElementById('preset-select');
 const presetSelectMobile = document.getElementById('preset-select-mobile');
 const outputPanel        = document.querySelector('.output');
@@ -50,7 +50,6 @@ const resetBtn           = document.getElementById('reset-btn');
 const resetBtnMobile     = document.getElementById('reset-btn-mobile');
 
 // ── Toggle collapse ───────────────────────────────────────────────────────
-// Clicking the header bar toggles — but not the tabs/copy button
 const outputHeader = document.querySelector('.output-header');
 
 outputHeader.addEventListener('click', (e) => {
@@ -59,20 +58,21 @@ outputHeader.addEventListener('click', (e) => {
   toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
 });
 
-// ── Populate mobile preset select ────────────────────────────────────────
+// ── Populate mobile preset select ─────────────────────────────────────────
 presetSelectMobile.innerHTML = presetSelect.innerHTML;
 
-// Sync selects bidirectionally
-presetSelect.addEventListener('change', () => {
-  presetSelectMobile.value = presetSelect.value;
-});
-presetSelectMobile.addEventListener('change', () => {
-  presetSelect.value = presetSelectMobile.value;
-  const preset = PRESETS[presetSelectMobile.value];
+// ── Presets ───────────────────────────────────────────────────────────────
+function applyPreset(key) {
+  const preset = PRESETS[key];
   if (!preset) return;
   Object.keys(preset).forEach(k => { sliders[k].value = preset[k]; });
+  presetSelect.value = key;
+  presetSelectMobile.value = key;
   update();
-});
+}
+
+presetSelect.addEventListener('change', () => applyPreset(presetSelect.value));
+presetSelectMobile.addEventListener('change', () => applyPreset(presetSelectMobile.value));
 
 // ── Reset ─────────────────────────────────────────────────────────────────
 function doReset() {
@@ -86,13 +86,10 @@ resetBtnMobile.addEventListener('click', doReset);
 
 // ── Tab state ─────────────────────────────────────────────────────────────
 let activeTab = 'css';
-let currentCSS = '';
-let currentTW  = '';
-let currentFramer = '';
-let currentReactSpring = '';
+const codeCache = { css: '', tailwind: '', framer: '', reactspring: '' };
 
 function getActiveCode() {
-  return { css: currentCSS, tailwind: currentTW, framer: currentFramer, reactspring: currentReactSpring }[activeTab] ?? '';
+  return codeCache[activeTab] ?? '';
 }
 
 tabs.forEach(tab => {
@@ -102,14 +99,6 @@ tabs.forEach(tab => {
     activeTab = tab.dataset.tab;
     codeOutput.textContent = getActiveCode();
   });
-});
-
-// ── Presets ───────────────────────────────────────────────────────────────
-presetSelect.addEventListener('change', () => {
-  const preset = PRESETS[presetSelect.value];
-  if (!preset) return;
-  Object.keys(preset).forEach(k => { sliders[k].value = preset[k]; });
-  update();
 });
 
 // ── Core update ───────────────────────────────────────────────────────────
@@ -122,23 +111,22 @@ function update() {
     parseFloat(sliders.mass.value),
     60
   );
-  const effects  = {
+  const effects = {
     scale: parseFloat(sliders.scale.value), lift: parseFloat(sliders.lift.value),
     wobble: parseFloat(sliders.wobble.value), squash: parseFloat(sliders.squash.value),
   };
-
   const springParams = {
     stiffness: parseFloat(sliders.stiffness.value),
     damping:   parseFloat(sliders.damping.value),
     mass:      parseFloat(sliders.mass.value),
   };
 
-  currentCSS         = generateKeyframes(springValues, effects);
-  currentTW          = generateTailwindConfig(springValues, effects);
-  currentFramer      = generateFramerMotion(springParams, effects);
-  currentReactSpring = generateReactSpring(springParams, effects);
+  codeCache.css         = generateKeyframes(springValues, effects);
+  codeCache.tailwind    = generateTailwindConfig(springValues, effects);
+  codeCache.framer      = generateFramerMotion(springParams, effects);
+  codeCache.reactspring = generateReactSpring(springParams, effects);
 
-  dynamicStyle.textContent = currentCSS;
+  dynamicStyle.textContent = codeCache.css;
   codeOutput.textContent = getActiveCode();
 }
 
@@ -184,8 +172,4 @@ copyBtn.addEventListener('click', () => {
 // ── Init: load a random preset ────────────────────────────────────────────
 const presetKeys = Object.keys(PRESETS);
 const randomKey  = presetKeys[Math.floor(Math.random() * presetKeys.length)];
-const initPreset = PRESETS[randomKey];
-Object.keys(initPreset).forEach(k => { sliders[k].value = initPreset[k]; });
-presetSelect.value = randomKey;
-presetSelectMobile.value = randomKey;
-update();
+applyPreset(randomKey);
