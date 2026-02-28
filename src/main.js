@@ -58,10 +58,10 @@ outputHeader.addEventListener('click', (e) => {
 });
 
 // ── Reset ─────────────────────────────────────────────────────────────────
-const DEFAULTS = { scale: 50, lift: 40, wobble: 10, squash: 20, stiffness: 200, damping: 10, mass: 1 };
-
 resetBtn.addEventListener('click', () => {
-  Object.keys(DEFAULTS).forEach(k => { sliders[k].value = DEFAULTS[k]; });
+  Object.keys(sliders).forEach(k => {
+    sliders[k].value = sliders[k].min;
+  });
   presetSelect.value = '';
   update();
 });
@@ -143,5 +143,10 @@ copyBtn.addEventListener('click', () => {
   });
 });
 
-// ── Init ──────────────────────────────────────────────────────────────────
+// ── Init: load a random preset ────────────────────────────────────────────
+const presetKeys = Object.keys(PRESETS);
+const randomKey  = presetKeys[Math.floor(Math.random() * presetKeys.length)];
+const initPreset = PRESETS[randomKey];
+Object.keys(initPreset).forEach(k => { sliders[k].value = initPreset[k]; });
+presetSelect.value = randomKey;
 update();
