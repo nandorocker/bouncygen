@@ -131,30 +131,22 @@
       </div>
     </div>
 
-    <div class="output collapsed">
+    <div class="output">
       <div class="output-header">
-        <button id="toggle-btn" class="toggle-btn" aria-expanded="false">
-          <svg class="toggle-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span class="toggle-label">View Code</span>
-        </button>
-        <div class="output-actions">
-          <div class="tabs">
-            <button class="tab active" data-tab="css">CSS</button>
-            <button class="tab" data-tab="tailwind">Tailwind</button>
-            <button class="tab" data-tab="framer">Framer</button>
-            <button class="tab" data-tab="reactspring">React Spring</button>
-          </div>
-          <button id="copy-btn" class="copy-btn">
-            <svg class="copy-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M2.5 8.5H2A1.5 1.5 0 0 1 .5 7V2A1.5 1.5 0 0 1 2 .5h5A1.5 1.5 0 0 1 8.5 2v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span class="copy-label">Copy Code</span>
-            <span class="copy-confirm">✓<span class="copy-confirm-text"> Copied!</span></span>
-          </button>
+        <div class="tabs">
+          <button class="tab active" data-tab="css">CSS</button>
+          <button class="tab" data-tab="tailwind">Tailwind</button>
+          <button class="tab" data-tab="framer">Framer</button>
+          <button class="tab" data-tab="reactspring">React Spring</button>
         </div>
+        <button id="copy-btn" class="copy-btn">
+          <svg class="copy-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M2.5 8.5H2A1.5 1.5 0 0 1 .5 7V2A1.5 1.5 0 0 1 2 .5h5A1.5 1.5 0 0 1 8.5 2v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="copy-label">Copy Code</span>
+          <span class="copy-confirm">✓<span class="copy-confirm-text"> Copied!</span></span>
+        </button>
       </div>
       <pre id="code-output" class="code-output"></pre>
     </div>

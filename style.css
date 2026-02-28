@@ -125,8 +125,8 @@ select:hover { border-color: #e8913a; }
 
 /* ── Preview ───────────────────────────────── */
 .preview-area {
-  background: rgba(232, 145, 58, 0.12);
-  border: 2px solid rgba(232, 145, 58, 0.2);
+  background: transparent;
+  border: none;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -236,9 +236,6 @@ input[type="range"]::-moz-range-thumb {
   overflow: hidden;
 }
 
-.output.collapsed {
-  flex: 0 0 auto;
-}
 
 .output-header {
   display: flex;
@@ -247,46 +244,6 @@ input[type="range"]::-moz-range-thumb {
   padding: 0.5rem 0.6rem 0.5rem 0.75rem;
   background: #2a1f14;
   flex-shrink: 0;
-  cursor: pointer;
-  user-select: none;
-}
-
-.output-header .output-actions {
-  cursor: default;
-}
-
-.toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Work Sans', system-ui, sans-serif;
-  font-size: 0.82rem;
-  font-weight: 900;
-  color: #c8a882;
-  padding: 0.2rem 0.4rem;
-  border-radius: 6px;
-  transition: color 0.15s;
-}
-
-.toggle-btn:hover { color: #fdf4eb; }
-
-.toggle-icon {
-  transition: transform 0.25s ease;
-  flex-shrink: 0;
-  transform: rotate(-90deg); /* points right = collapsed */
-}
-
-.output:not(.collapsed) .toggle-icon {
-  transform: rotate(0deg); /* points down = expanded */
-}
-
-.output-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .tabs {
@@ -353,9 +310,6 @@ input[type="range"]::-moz-range-thumb {
   white-space: pre;
 }
 
-.output.collapsed .code-output {
-  display: none;
-}
 
 /* ── Footer ────────────────────────────────── */
 .site-footer {
@@ -398,9 +352,6 @@ input[type="range"]::-moz-range-thumb {
   .preview-area {
     min-height: 220px;
     padding: 1.5rem 0;
-    border-radius: 14px;
-    background: transparent;
-    border-color: transparent;
   }
 
   label {
@@ -420,19 +371,11 @@ input[type="range"]::-moz-range-thumb {
   /* Shrink tab padding so all 4 fit on one line */
   .tab { padding: 0.3rem 0.4rem; font-size: 0.72rem; white-space: nowrap; }
 
-  /* Hide the View Code toggle */
-  .toggle-btn { display: none; }
-
-  /* Code panel always expanded, tall enough to scroll */
-  .output,
-  .output.collapsed {
+  /* Code panel fixed height on mobile */
+  .output {
     flex: none;
     height: 300px;
   }
-
-  .output.collapsed .code-output { display: block; }
-  .output.collapsed .output-actions { display: flex; }
-  .output.collapsed .toggle-icon { transform: rotate(0deg); }
 
   /* Code output itself scrolls */
   .code-output { min-height: 0; }

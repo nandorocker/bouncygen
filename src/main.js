@@ -44,19 +44,8 @@ const copyBtn            = document.getElementById('copy-btn');
 const tabs               = document.querySelectorAll('.tab');
 const presetSelect       = document.getElementById('preset-select');
 const presetSelectMobile = document.getElementById('preset-select-mobile');
-const outputPanel        = document.querySelector('.output');
-const toggleBtn          = document.getElementById('toggle-btn');
 const resetBtn           = document.getElementById('reset-btn');
 const resetBtnMobile     = document.getElementById('reset-btn-mobile');
-
-// ── Toggle collapse ───────────────────────────────────────────────────────
-const outputHeader = document.querySelector('.output-header');
-
-outputHeader.addEventListener('click', (e) => {
-  if (e.target.closest('.output-actions')) return;
-  const isCollapsed = outputPanel.classList.toggle('collapsed');
-  toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
-});
 
 // ── Populate mobile preset select ─────────────────────────────────────────
 presetSelectMobile.innerHTML = presetSelect.innerHTML;
