@@ -79,6 +79,7 @@ select {
   font-family: 'Work Sans', system-ui, sans-serif;
   font-size: 0.9rem;
   font-weight: 800;
+  line-height: 1;
   color: #3a3028;
   background: #fdf8f3;
   border: 2px solid #e8d9c8;
@@ -95,13 +96,14 @@ select:hover { border-color: #e8913a; }
 
 .reset-btn {
   font-family: 'Work Sans', system-ui, sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: #9a8575;
   background: #fdf8f3;
   border: 2px solid #e8d9c8;
   border-radius: 10px;
-  padding: 0.45rem 0.7rem;
+  padding: 0.45rem 0.75rem;
+  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
