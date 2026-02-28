@@ -199,7 +199,12 @@ label span {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+}
+
+.info-wrap {
   position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .info-btn {
@@ -215,10 +220,9 @@ label span {
   justify-content: center;
   flex-shrink: 0;
   transition: color 0.15s, border-color 0.15s;
-  position: relative;
 }
 
-.info-btn:hover,
+.info-wrap:hover .info-btn,
 .info-btn:focus-visible {
   color: #e8913a;
   border-color: #e8913a;
@@ -238,7 +242,7 @@ label span {
   font-family: 'Work Sans', system-ui, sans-serif;
 }
 
-.info-btn:hover .info-icon,
+.info-wrap:hover .info-icon,
 .info-btn:focus-visible .info-icon {
   color: #e8913a;
 }
@@ -254,7 +258,9 @@ label span {
   font-weight: 400;
   padding: 0.35rem 0.6rem;
   border-radius: 8px;
-  white-space: nowrap;
+  width: 160px;
+  white-space: normal;
+  text-align: center;
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
@@ -273,8 +279,8 @@ label span {
   border-top-color: #1e1610;
 }
 
-.info-btn:hover .tooltip,
-.info-btn:focus-visible .tooltip {
+.info-wrap:hover .tooltip,
+.info-btn:focus-visible ~ .tooltip {
   visibility: visible;
   opacity: 1;
 }
