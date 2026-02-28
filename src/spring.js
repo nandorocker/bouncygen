@@ -15,6 +15,8 @@ export function simulateSpring(stiffness = 200, damping = 10, mass = 1, steps = 
     const acceleration = (springForce + dampingForce) / mass;
     velocity += acceleration * dt;
     position += velocity * dt;
+    if (position > 2.0) { position = 2.0; velocity = Math.min(velocity, 0); }
+    if (position < -0.5) { position = -0.5; velocity = Math.max(velocity, 0); }
     result.push(position);
   }
 

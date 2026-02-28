@@ -195,6 +195,90 @@ label span {
   font-weight: 700;
 }
 
+.label-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+}
+
+.info-btn {
+  background: none;
+  border: 1.5px solid #c8b5a3;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+  position: relative;
+}
+
+.info-btn:hover,
+.info-btn:focus-visible {
+  color: #e8913a;
+  border-color: #e8913a;
+}
+
+.info-btn:focus-visible {
+  outline: 2px solid #e8913a;
+  outline-offset: 1px;
+}
+
+.info-icon {
+  font-size: 0.55rem;
+  font-weight: 900;
+  color: #b09a84;
+  line-height: 1;
+  pointer-events: none;
+  font-family: 'Work Sans', system-ui, sans-serif;
+}
+
+.info-btn:hover .info-icon,
+.info-btn:focus-visible .info-icon {
+  color: #e8913a;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1610;
+  color: #d4b896;
+  font-size: 0.72rem;
+  font-weight: 400;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 20;
+  font-family: 'Work Sans', system-ui, sans-serif;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1e1610;
+}
+
+.info-btn:hover .tooltip,
+.info-btn:focus-visible .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
